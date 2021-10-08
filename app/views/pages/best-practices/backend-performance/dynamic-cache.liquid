@@ -34,7 +34,7 @@ Unique identifier for the page.
 If you cache a page for 10 seconds, and the `key` is blank, cache will be generated for the whole URL.
 If the user changes anything in the URL, the cache will not be taken into consideration.
 
-If the page content does not depend on arguments, it's best to restrict `key` to `page.slug` (and/or `context.params.slug2` etc.).
+If the page content does not depend on arguments, it's best to restrict `key` to the page slug or slugs `page.slug` (and/or `context.params.slug2` etc.). Note when accessing the page slug or metadata from within the YML header your liquid should use context.slug and not context.page.slug as the YML header has only a limited set on context variables at the point in time dynamic cache is being processed.
 
 Default: full page URL with query params. For example https://example.com?my_arg=1.
 
@@ -85,7 +85,7 @@ dynamic_cache:
   layout: true
   key: >
     {%- graphql record = 'records_updated_at' | fetch: 'records' | fetch: 'results' | first -%}
-    {{ context.page.slug | append: record.updated_at }}
+    {{ context.slug | append: record.updated_at }}
 ---
 {% graphql records = 'modules/caches/get_records' | fetch: 'records' | fetch: 'results' %}
 
